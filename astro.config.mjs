@@ -5,6 +5,6 @@ export default defineConfig({
   // STEP 1: Replace YOUR_GITHUB_USERNAME before your first deployment.
   // STEP 2: When your custom domain is ready, replace this with e.g.
   //         https://blog.yourdomain.com
-  site: 'https://YOUR_GITHUB_USERNAME.github.io',
+  site: 'https://blog.datasaaz.com',
   integrations: [sitemap()],
 });
