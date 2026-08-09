@@ -1,0 +1,14 @@
+---
+import { AUTHOR_NAME, GITHUB_URL, LINKEDIN_URL } from '../consts';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="shell footer-inner">
+    <p>© {year} {AUTHOR_NAME}. Built with Astro and GitHub Pages.</p>
+    <div class="footer-links">
+      {GITHUB_URL && <a href={GITHUB_URL} rel="me">GitHub</a>}
+      {LINKEDIN_URL && <a href={LINKEDIN_URL} rel="me">LinkedIn</a>}
+    </div>
+  </div>
+</footer>

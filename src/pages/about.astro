@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AUTHOR_NAME } from '../consts';
+---
+
+<BaseLayout title="About" description="About the engineer behind this site.">
+  <section class="shell narrow page-intro">
+    <p class="eyebrow">ABOUT</p>
+    <h1>{AUTHOR_NAME}</h1>
+    <p class="lead">
+      I write about software engineering, data systems, architecture, and the practical use of AI in professional engineering teams.
+    </p>
+    <p>
+      This site is deliberately implementation-focused: mental models, engineering trade-offs, workflows, experiments, and lessons that can be applied to real repositories.
+    </p>
+    <p class="callout">
+      Before publishing, replace this page with your own short professional biography. Keep it specific: what you build, what you lead, and what you are currently learning.
+    </p>
+  </section>
+</BaseLayout>

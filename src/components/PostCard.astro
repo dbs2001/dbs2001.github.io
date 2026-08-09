@@ -1,0 +1,26 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  tags: string[];
+}
+
+const { id, title, description, pubDate, tags } = Astro.props;
+---
+
+<article class="post-card">
+  <div class="post-meta">
+    <time datetime={pubDate.toISOString()}>
+      {pubDate.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })}
+    </time>
+    <span aria-hidden="true">·</span>
+    <span>{Math.max(4, Math.round(description.length / 35))} min preview</span>
+  </div>
+  <h2><a href={`/blog/${id}/`}>{title}</a></h2>
+  <p>{description}</p>
+  <div class="tag-row" aria-label="Tags">
+    {tags.map((tag) => <span class="tag">{tag}</span>)}
+  </div>
+</article>

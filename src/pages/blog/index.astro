@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const categories = ['All', 'AI', 'Data Engineering', 'System Design'];
+---
+
+<BaseLayout title="Articles" description="Articles on AI-assisted software engineering, architecture, and data engineering.">
+  <section class="shell page-intro">
+    <p class="eyebrow">ARTICLES</p>
+    <h1>Engineering insights</h1>
+    <p class="lead">Deep dives into AI systems, data architecture, and scalable design patterns for modern engineers.</p>
+  </section>
+
+  <section class="shell section-block">
+    <div class="category-filter">
+      {categories.map((category) => (
+        <button 
+          class="category-btn active" 
+          data-category={category}
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+    
+    <div class="post-grid">
+      {posts.map((post) => <PostCard id={post.id} {...post.data} />)}
+    </div>
+  </section>
+</BaseLayout>

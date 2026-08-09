@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const featured = posts.find((post) => post.data.featured) ?? posts[0];
+const morePosts = posts.filter((post) => post.id !== featured?.id).slice(0, 3);
+---
+
+<BaseLayout>
+  <section class="hero shell">
+    <p class="eyebrow">AI · DATA ENGINEERING · SYSTEM DESIGN</p>
+    <h1>Building intelligent systems at scale</h1>
+    <p class="hero-copy">Practical insights on architecting AI-powered systems, designing robust data pipelines, and scaling systems that learn.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="/blog/">Explore articles</a>
+      <a class="button secondary" href="/about/">About us</a>
+    </div>
+  </section>
+
+  {featured && (
+    <section class="shell section-block">
+      <div class="section-heading">
+        <p class="eyebrow">START HERE</p>
+        <h2>Featured article</h2>
+      </div>
+      <article class="feature-card">
+        <div>
+          <p class="post-meta">
+            {featured.data.pubDate.toLocaleDateString('en', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </p>
+          <h2><a href={`/blog/${featured.id}/`}>{featured.data.title}</a></h2>
+          <p>{featured.data.description}</p>
+          <a class="text-link" href={`/blog/${featured.id}/`}>Read article →</a>
+        </div>
+        <div class="concept-card" aria-label="Mental model diagram">
+          <span>YOU</span>
+          <b>↓</b>
+          <span>IDE</span>
+          <b>↓</b>
+          <span>AGENT / ASSISTANT</span>
+          <b>↓</b>
+          <span>LLM</span>
+        </div>
+      </article>
+    </section>
+  )}
+
+  {morePosts.length > 0 && (
+    <section class="shell section-block">
+      <div class="section-heading">
+        <p class="eyebrow">LATEST</p>
+        <h2>More articles</h2>
+      </div>
+      <div class="post-grid">
+        {morePosts.map((post) => (
+          <PostCard id={post.id} {...post.data} />
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
