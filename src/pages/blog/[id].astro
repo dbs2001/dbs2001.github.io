@@ -24,13 +24,13 @@ const readingMinutes = Math.max(5, Math.round(post.data.description.length / 35)
       </div>
       <h1>{post.data.title}</h1>
       <p class="lead">{post.data.description}</p>
-      <p class="post-meta">
+      <div class="post-meta">
         <time datetime={post.data.pubDate.toISOString()}>
           {post.data.pubDate.toLocaleDateString('en', { year: 'numeric', month: 'long', day: 'numeric' })}
         </time>
         <span aria-hidden="true">·</span>
         <span>{readingMinutes} min read</span>
-      </p>
+      </div>
     </header>
     <div class="prose">
       <Content />

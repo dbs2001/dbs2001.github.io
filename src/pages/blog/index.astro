@@ -5,29 +5,23 @@ import PostCard from '../../components/PostCard.astro';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-const categories = ['All', 'AI', 'Data Engineering', 'System Design'];
 ---
 
 <BaseLayout title="Articles" description="Articles on AI-assisted software engineering, architecture, and data engineering.">
   <section class="shell page-intro">
-    <p class="eyebrow">ARTICLES</p>
-    <h1>Engineering insights</h1>
-    <p class="lead">Deep dives into AI systems, data architecture, and scalable design patterns for modern engineers.</p>
+    <div class="page-intro-grid">
+      <div>
+        <p class="eyebrow">ARTICLES</p>
+        <h1>Engineering concepts explained the way I wish someone had explained them to me..</h1>
+        <p class="lead">A clean collection of notes on AI, data systems, and practical architectures.</p>
+      </div>
+      <figure class="intro-image">
+        <img src="/images/hero-illustration.png" alt="Engineering concept illustration" />
+      </figure>
+    </div>
   </section>
 
   <section class="shell section-block">
-    <div class="category-filter">
-      {categories.map((category) => (
-        <button 
-          class="category-btn active" 
-          data-category={category}
-        >
-          {category}
-        </button>
-      ))}
-    </div>
-    
     <div class="post-grid">
       {posts.map((post) => <PostCard id={post.id} {...post.data} />)}
     </div>

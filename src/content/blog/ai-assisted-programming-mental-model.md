@@ -2,7 +2,7 @@
 title: "I Thought GitHub Copilot and GPT Were the Same Thing"
 description: "A software engineer's mental model for LLMs, coding assistants, agents, context, and the first steps into AI-assisted software development."
 pubDate: 2026-08-09
-tags: ["AI-assisted development", "GitHub Copilot", "LLMs", "Agentic coding"]
+tags: ["AI-assisted Dev", "GitHub Copilot", "LLMs", "Agentic coding"]
 draft: false
 featured: true
 ---
