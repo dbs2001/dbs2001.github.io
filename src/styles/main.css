@@ -1,0 +1,173 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+@plugin "tailwind-bootstrap-grid";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@import "./generated-theme.css";
+@import "./safe.css";
+@import "./utilities.css";
+
+/*
+ * DataSaaz brand accent
+ * Buttons, logos, active states and visual highlights.
+ */
+@theme {
+  --color-primary: #740601;
+  --color-darkmode-primary: #740601;
+}
+
+@layer base {
+  @import "./base.css";
+
+  ::selection {
+    background-color: #740601;
+    color: #ffffff;
+  }
+}
+
+@layer components {
+  @import "./components.css";
+  @import "./navigation.css";
+  @import "./buttons.css";
+
+  /* -------------------------------------------------
+     BRAND / LOGO
+  ------------------------------------------------- */
+
+  .navbar-brand {
+    color: #740601;
+  }
+
+  .dark .navbar-brand {
+    color: #740601;
+  }
+
+
+  /* -------------------------------------------------
+     PRIMARY BUTTONS
+  ------------------------------------------------- */
+
+  .btn-primary {
+    border-color: #740601;
+    background-color: #740601;
+    color: #ffffff;
+  }
+
+  .btn-primary:hover {
+    border-color: #5e0501;
+    background-color: #5e0501;
+    color: #ffffff;
+  }
+
+  .dark .btn-primary {
+    border-color: #740601;
+    background-color: #740601;
+    color: #ffffff;
+  }
+
+  .dark .btn-primary:hover {
+    border-color: #8d0a04;
+    background-color: #8d0a04;
+    color: #ffffff;
+  }
+
+
+  /* -------------------------------------------------
+     OUTLINE BUTTONS
+  ------------------------------------------------- */
+
+  .btn-outline-primary {
+    border-color: #740601;
+    background-color: transparent;
+    color: #740601;
+  }
+
+  .btn-outline-primary:hover {
+    border-color: #740601;
+    background-color: #740601;
+    color: #ffffff;
+  }
+
+  .dark .btn-outline-primary {
+    border-color: #740601;
+    color: #ffffff;
+  }
+
+  .dark .btn-outline-primary:hover {
+    border-color: #740601;
+    background-color: #740601;
+    color: #ffffff;
+  }
+
+
+  /* -------------------------------------------------
+     NAVIGATION HIGHLIGHTS
+  ------------------------------------------------- */
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: #740601;
+  }
+
+  .dark .nav-link:hover,
+  .dark .nav-link.active {
+    color: #740601;
+  }
+
+
+  /* -------------------------------------------------
+     SOCIAL ICONS
+  ------------------------------------------------- */
+
+  .social-icons li a {
+    background-color: #740601;
+    color: #ffffff;
+  }
+
+  .social-icons li a:hover {
+    background-color: #5e0501;
+  }
+
+
+  /* -------------------------------------------------
+     ARTICLE LINKS / HIGHLIGHTS
+  ------------------------------------------------- */
+
+  .content a:not(.btn) {
+    color: #740601;
+  }
+
+  .content a:not(.btn):hover {
+    color: #5e0501;
+  }
+
+  .dark .content a:not(.btn) {
+    color: #b44a45;
+  }
+
+  .dark .content a:not(.btn):hover {
+    color: #cf6560;
+  }
+
+
+  /* -------------------------------------------------
+     BLOCKQUOTES
+  ------------------------------------------------- */
+
+  .content blockquote {
+    border-left-color: #740601;
+  }
+
+
+  /* -------------------------------------------------
+     FORM / FOCUS HIGHLIGHTS
+  ------------------------------------------------- */
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #740601;
+  }
+}

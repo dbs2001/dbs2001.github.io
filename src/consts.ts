@@ -1,10 +1,9 @@
-export const SITE_TITLE = 'The Datasaaz Blog';
+export const SITE_TITLE = 'DataSaaz';
 export const SITE_DESCRIPTION =
-  'Practical notes on AI-assisted software engineering, data systems, architecture, and engineering leadership.';
+  'DataSaaz helps software and data teams adopt AI-assisted engineering, build stronger engineering practices, and develop practical AI capability through advisory and hands-on training.';
 
-// Change this before publishing.
-export const AUTHOR_NAME = 'Danish Bin Sofwna';
+export const AUTHOR_NAME = 'DataSaaz';
 
 // Optional social links. Leave an empty string to hide a link.
-export const GITHUB_URL = 'https://github.com/YOUR_GITHUB_USERNAME';
+export const GITHUB_URL = 'https://github.com/dbs2001';
 export const LINKEDIN_URL = '';

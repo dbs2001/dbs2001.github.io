@@ -1,29 +1,70 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
 import PostCard from '../../components/PostCard.astro';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
 ---
 
-<BaseLayout title="Articles" description="Articles on AI-assisted software engineering, architecture, and data engineering.">
-  <section class="shell page-intro">
-    <div class="page-intro-grid">
-      <div>
-        <p class="eyebrow">ARTICLES</p>
-        <h1>Engineering concepts explained the way I wish someone had explained them to me..</h1>
-        <p class="lead">A clean collection of notes on AI, data systems, and practical architectures.</p>
+<BaseLayout
+  title="Insights"
+  description="Practical thinking from DataSaaz on AI-assisted engineering, developer enablement, system design, architecture and data engineering."
+>
+  <PageHeader title="Insights" />
+
+  <section class="section-sm pb-8">
+    <div class="container">
+      <div class="row items-center justify-between">
+        <div class="mb-8 md:col-6 md:mb-0">
+          <h2 class="mb-4">Engineering concepts explained the way we wish someone had explained them to us.</h2>
+          <p class="text-lg">
+            Practical thinking on AI-assisted development, data systems and architecture ; written to help engineers understand the technology and help leaders make better decisions about how their teams use it.
+          </p>
+        </div>
+        <div class="md:col-5">
+          <img src="/images/hero-illustration.png" alt="Engineering concept illustration" class="w-full rounded" />
+        </div>
       </div>
-      <figure class="intro-image">
-        <img src="/images/hero-illustration.png" alt="Engineering concept illustration" />
-      </figure>
     </div>
   </section>
 
-  <section class="shell section-block">
-    <div class="post-grid">
-      {posts.map((post) => <PostCard id={post.id} {...post.data} />)}
+  <section class="section pt-12">
+    <div class="container">
+      <div class="row">
+        <div class="lg:col-8">
+          <div class="row">
+            {posts.map((post) => (
+              <div class="mb-14 md:col-6">
+                <PostCard id={post.id} {...post.data} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <aside class="lg:col-4">
+          <div class="rounded bg-light p-8 dark:bg-darkmode-light lg:ml-8">
+            <h4 class="mb-3">What we write about</h4>
+            <p class="mb-6 text-sm text-text-light dark:text-darkmode-text-light">
+              The same themes we work on with engineering teams: AI adoption, developer capability, architecture, data platforms and the practices that make complex systems easier to operate and change.
+            </p>
+            {tags.length > 0 ? (
+              <ul>
+                {tags.map((tag) => (
+                  <li class="mb-3 border-b border-border pb-3 last:mb-0 last:border-0 last:pb-0 dark:border-darkmode-border">
+                    <span>{tag}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No topics yet.</p>
+            )}
+            <a class="btn btn-outline-primary btn-sm mt-7" href="/rss.xml">RSS feed</a>
+          </div>
+        </aside>
+      </div>
     </div>
   </section>
 </BaseLayout>

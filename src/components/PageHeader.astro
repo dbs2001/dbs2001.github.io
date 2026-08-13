@@ -1,0 +1,16 @@
+---
+const { title = '' }: { title?: string } = Astro.props;
+---
+
+<section>
+  <div class="container text-center">
+    <div class="rounded-2xl bg-gradient-to-b from-body to-light px-8 py-14 dark:from-darkmode-body dark:to-darkmode-light">
+      <h1>{title}</h1>
+      <nav class="mt-6 flex justify-center gap-2 text-text-light dark:text-darkmode-text-light" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-primary dark:hover:text-darkmode-primary">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>{title}</span>
+      </nav>
+    </div>
+  </div>
+</section>

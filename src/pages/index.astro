@@ -6,48 +6,208 @@ import PostCard from '../components/PostCard.astro';
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const featured = posts.find((post) => post.data.featured) ?? posts[0];
-const morePosts = posts.filter((post) => post.id !== featured?.id).slice(0, 4);
+const morePosts = posts.filter((post) => post.id !== featured?.id).slice(0, 3);
 ---
 
-<BaseLayout>
-  <section class="hero shell">
-    <p class="eyebrow">AI · DATA ENGINEERING · SYSTEM DESIGN</p>
-    <h1>Practical engineering notes for modern systems.</h1>
-    <p class="hero-copy">Short, simple writing for building better AI, data, and scalable products without the noise.</p>
-    <div class="hero-actions">
-      <a class="button primary" href="/blog/">Browse articles</a>
-      <a class="button secondary" href="/about/">About this site</a>
+<BaseLayout
+  title="AI Engineering Transformation & Training"
+  description="DataSaaz helps engineering organizations turn AI-assisted development into a practical, governed capability through advisory, repository enablement and hands-on team training."
+>
+  <section class="section pt-14">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="mb-8 text-center md:col-10 lg:col-8">
+          <p class="mb-4 font-secondary font-semibold uppercase tracking-[0.14em] text-primary">AI ENGINEERING · TEAM ENABLEMENT · DATA & SOFTWARE</p>
+          <h1 class="mb-6 text-h3 lg:text-h1">Turn AI ambition into engineering capability.</h1>
+          <p class="mx-auto mb-8 max-w-[760px] text-lg">
+            DataSaaz helps software and data organizations move from scattered AI experimentation to repeatable engineering practice ; with the right workflows, repository context, guardrails, and hands-on capability across developers and technical leads.
+          </p>
+          <div class="flex flex-wrap justify-center gap-3">
+            <a class="btn btn-primary" href="#services">Explore how we help</a>
+            <a class="btn btn-outline-primary" href="/blog/">Read our thinking</a>
+          </div>
+        </div>
+        <div class="col-12">
+          <img
+            src="/images/hero-illustration.png"
+            alt="Engineering concepts explained visually"
+            class="mx-auto w-full max-w-[1200px] rounded"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="section-sm bg-gradient">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="mb-12 text-center lg:col-8">
+          <p class="mb-3 font-secondary font-semibold uppercase tracking-[0.14em] text-primary">HOW WE HELP</p>
+          <h2 class="mb-4">AI adoption is an engineering transformation, not a tool rollout.</h2>
+          <p class="text-lg">
+            Buying a coding assistant is easy. Making it useful across real repositories, delivery processes and engineering teams is harder. DataSaaz focuses on the operating practices that turn AI tooling into measurable engineering capability.
+          </p>
+        </div>
+      </div>
+
+      <div class="row justify-center">
+        <div class="mb-8 md:col-6 lg:col-4">
+          <div class="h-full rounded-2xl bg-body p-8 shadow-sm dark:bg-darkmode-body">
+            <h3 class="h4 mb-4">AI Engineering Transformation</h3>
+            <p class="mb-5">
+              Design a practical path from individual experimentation to governed, repository-aware AI-assisted engineering.
+            </p>
+            <ul class="space-y-2">
+              <li>Adoption strategy and engineering operating model</li>
+              <li>Repository and context readiness</li>
+              <li>Agent workflows, instructions and guardrails</li>
+              <li>Pilot design, rollout and quality controls</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mb-8 md:col-6 lg:col-4">
+          <div class="h-full rounded-2xl bg-body p-8 shadow-sm dark:bg-darkmode-body">
+            <h3 class="h4 mb-4">Developer & Lead Training</h3>
+            <p class="mb-5">
+              Build capability through practical training that uses engineering scenarios, repositories and decision-making ; not generic prompt demonstrations.
+            </p>
+            <ul class="space-y-2">
+              <li>AI-assisted development fundamentals</li>
+              <li>Context engineering and agentic workflows</li>
+              <li>Code review, testing and validation with AI</li>
+              <li>Enablement for team leads and engineering managers</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mb-8 md:col-6 lg:col-4">
+          <div class="h-full rounded-2xl bg-body p-8 shadow-sm dark:bg-darkmode-body">
+            <h3 class="h4 mb-4">Engineering Advisory</h3>
+            <p class="mb-5">
+              Apply AI adoption in the context of the systems your teams actually build and operate.
+            </p>
+            <ul class="space-y-2">
+              <li>Software and data architecture</li>
+              <li>Data engineering and platform modernization</li>
+              <li>Cloud migration and engineering workflows</li>
+              <li>Technical design reviews and delivery practices</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="training" class="section-sm">
+    <div class="container">
+      <div class="row items-center justify-between">
+        <div class="mb-8 md:col-6 md:mb-0 lg:col-5">
+          <p class="mb-3 font-secondary font-semibold uppercase tracking-[0.14em] text-primary">TRAINING THAT CHANGES PRACTICE</p>
+          <h2 class="mb-5">Your developers do not need another AI demo. They need a new engineering workflow.</h2>
+          <p class="mb-5 text-lg">
+            Effective AI training should change how engineers inspect repositories, frame tasks, provide context, validate generated changes, choose models, and decide where human judgment must remain in control.
+          </p>
+          <p>
+            DataSaaz training is designed around those decisions. Sessions can be tailored for developers, senior engineers, team leads and engineering managers, with exercises that reflect real software and data-engineering work rather than toy examples.
+          </p>
+        </div>
+        <div class="md:col-5 lg:col-6">
+          <div class="rounded-2xl bg-light p-8 dark:bg-darkmode-light lg:p-10">
+            <h3 class="h4 mb-5">A practical learning path</h3>
+            <ol class="space-y-4">
+              <li><strong>01 ; Understand the stack:</strong> IDEs, coding assistants, models, agents and tools.</li>
+              <li><strong>02 ; Engineer the context:</strong> repository knowledge, instructions, constraints and acceptance criteria.</li>
+              <li><strong>03 ; Work agentically:</strong> bounded multi-file changes, tests, feedback loops and safe autonomy.</li>
+              <li><strong>04 ; Lead the adoption:</strong> standards, governance, quality gates, cost and team enablement.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm bg-gradient">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="mb-12 text-center lg:col-8">
+          <p class="mb-3 font-secondary font-semibold uppercase tracking-[0.14em] text-primary">OUR APPROACH</p>
+          <h2 class="mb-4">Start small. Learn from real engineering work. Scale what proves useful.</h2>
+          <p class="text-lg">
+            AI adoption works best when organizations connect tooling, repository context, engineering standards and people capability rather than treating them as separate initiatives.
+          </p>
+        </div>
+      </div>
+      <div class="row justify-center text-center">
+        <div class="mb-8 md:col-4">
+          <h3 class="h4 mb-3">Discover</h3>
+          <p>Understand current workflows, repositories, constraints, skills and the engineering problems where AI can create real leverage.</p>
+        </div>
+        <div class="mb-8 md:col-4">
+          <h3 class="h4 mb-3">Enable</h3>
+          <p>Build a focused pilot, encode the right context and guardrails, and train engineers on the workflows they will actually use.</p>
+        </div>
+        <div class="mb-8 md:col-4">
+          <h3 class="h4 mb-3">Scale</h3>
+          <p>Turn proven practices into reusable standards, team playbooks and governance that can scale without reducing engineering accountability.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   {featured && (
-    <section class="shell section-block">
-      <div class="section-heading">
-        <p class="eyebrow">FEATURED</p>
-        <h2>Start with this article</h2>
+    <section class="section-sm">
+      <div class="container">
+        <div class="row items-center justify-between">
+          <div class="mb-8 md:col-5 md:mb-0">
+            <p class="mb-3 font-secondary font-semibold uppercase tracking-[0.14em] text-primary">INSIGHTS</p>
+            <h2 class="mb-4">We publish the thinking behind the work.</h2>
+            <p class="mb-8 text-lg">
+              Our articles break down AI-assisted engineering, data platforms and system design into practical mental models that engineering teams can apply in real environments.
+            </p>
+            <a class="btn btn-primary" href={`/blog/${featured.id}/`}>Read the featured article</a>
+          </div>
+          <div class="md:col-6 lg:col-5">
+            <div class="rounded-2xl bg-light p-8 dark:bg-darkmode-light">
+              <PostCard id={featured.id} {...featured.data} />
+            </div>
+          </div>
+        </div>
       </div>
-      <article class="feature-card">
-        <p class="post-meta">
-          {featured.data.pubDate.toLocaleDateString('en', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </p>
-        <h2><a href={`/blog/${featured.id}/`}>{featured.data.title}</a></h2>
-        <p>{featured.data.description}</p>
-        <a class="text-link" href={`/blog/${featured.id}/`}>Read article →</a>
-      </article>
     </section>
   )}
 
   {morePosts.length > 0 && (
-    <section class="shell section-block">
-      <div class="section-heading">
-        <p class="eyebrow">LATEST</p>
-        <h2>Recent articles</h2>
-      </div>
-      <div class="post-grid">
-        {morePosts.map((post) => (
-          <PostCard id={post.id} {...post.data} />
-        ))}
+    <section class="section-sm pt-0">
+      <div class="container">
+        <h2 class="h3 mb-12 text-center">More from DataSaaz</h2>
+        <div class="row justify-center">
+          {morePosts.map((post) => (
+            <div class="mb-14 md:col-6 lg:col-4">
+              <PostCard id={post.id} {...post.data} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )}
+
+  <section id="contact" class="section-sm bg-gradient">
+    <div class="container">
+      <div class="row justify-center text-center">
+        <div class="lg:col-8">
+          <p class="mb-3 font-secondary font-semibold uppercase tracking-[0.14em] text-primary">WORK WITH DATASAAZ</p>
+          <h2 class="mb-5">Planning how AI should actually work inside your engineering organization?</h2>
+          <p class="mx-auto mb-8 max-w-[760px] text-lg">
+            Whether you are defining an adoption strategy, enabling a first group of developers, training engineering leads, or trying to move beyond ad-hoc Copilot usage, DataSaaz can help structure the next step around your teams, repositories and delivery environment.
+          </p>
+          <div class="flex flex-wrap justify-center gap-3">
+            <a class="btn btn-primary" href="/about/">How we work</a>
+            <a class="btn btn-outline-primary" href="/blog/">Explore our insights</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

@@ -1,20 +1,72 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { AUTHOR_NAME } from '../consts';
+import PageHeader from '../components/PageHeader.astro';
 ---
 
-<BaseLayout title="About" description="About the engineer behind this site.">
-  <section class="shell narrow page-intro">
-    <p class="eyebrow">ABOUT</p>
-    <h1>{AUTHOR_NAME}</h1>
-    <p class="lead">
-      I write about software engineering, data systems, architecture, and the practical use of AI in professional engineering teams.
-    </p>
-    <p>
-      This site is deliberately implementation-focused: mental models, engineering trade-offs, workflows, experiments, and lessons that can be applied to real repositories.
-    </p>
-    <p class="callout">
-      Before publishing, replace this page with your own short professional biography. Keep it specific: what you build, what you lead, and what you are currently learning.
-    </p>
+<BaseLayout
+  title="About"
+  description="DataSaaz helps engineering organizations adopt AI-assisted development, strengthen software and data engineering practices, and build practical capability through advisory and hands-on training."
+>
+  <PageHeader title="About DataSaaz" />
+
+  <section class="section pt-16">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="lg:col-8">
+          <div class="content">
+            <h2>Engineering the transition from AI experimentation to everyday practice.</h2>
+            <p class="lead">
+              DataSaaz is an engineering advisory and training company focused on helping software and data teams use AI in ways that improve how engineering work is understood, executed and governed.
+            </p>
+            <p>
+              The challenge for most organizations is no longer access to AI. Developers can already open an IDE, select a powerful model and generate code within seconds. The harder question is how that capability should operate inside real repositories, architectural constraints, review processes, security boundaries and delivery standards.
+            </p>
+            <p>
+              That is the space DataSaaz is built around: connecting AI tooling with sound software engineering practice and building the human capability required to use it well.
+            </p>
+
+            <h2>What we help organizations do</h2>
+            <h3>Adopt AI-assisted engineering deliberately</h3>
+            <p>
+              We help teams move beyond isolated experimentation by defining useful workflows, repository context, instructions, guardrails, validation practices and a realistic path for scaling adoption.
+            </p>
+
+            <h3>Build capability across developers and technical leaders</h3>
+            <p>
+              Our training focuses on the engineering decisions behind effective AI use: how to frame work, provide durable context, work with coding agents, review generated changes, choose the right model for the task, and preserve engineering accountability as automation increases.
+            </p>
+
+            <h3>Strengthen the systems around the tools</h3>
+            <p>
+              AI-assisted development does not exist in isolation. It touches architecture, data engineering, cloud platforms, testing, CI/CD, source-control practices and the way teams document technical knowledge. DataSaaz brings those concerns into the same conversation.
+            </p>
+
+            <h2>How we think about transformation</h2>
+            <p>
+              We do not treat AI adoption as a race to maximize generated code. The objective is to create better engineering outcomes: shorter feedback loops, clearer technical understanding, safer automation, stronger developer capability and more consistent execution.
+            </p>
+            <blockquote>
+              <p><strong>The goal is not to make engineers dependent on AI. It is to make engineering teams more capable with it.</strong></p>
+            </blockquote>
+            <p>
+              That means starting with real engineering work, introducing autonomy gradually, keeping human ownership explicit, and scaling only the practices that prove useful in the organization’s actual environment.
+            </p>
+
+            <h2>Why we publish</h2>
+            <p>
+              DataSaaz publishes practical articles on AI-assisted software development, data engineering, architecture and engineering leadership because useful consulting starts with clear thinking. The articles are deliberately implementation-focused: they explain the mental models, trade-offs and operating practices behind the work rather than presenting AI as a collection of product features.
+            </p>
+
+            <h2>Working with DataSaaz</h2>
+            <p>
+              Engagements can range from focused workshops and team-lead training to repository enablement, pilot design, adoption advisory and broader engineering transformation support. The format should match the maturity of the team and the problem being solved ; not the other way around.
+            </p>
+            <p>
+              If your organization is asking how to move from “we have Copilot” to “we know how AI should work across our engineering teams,” that is exactly the conversation DataSaaz is designed to support.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </BaseLayout>

@@ -1,17 +1,59 @@
 ---
-import { SITE_TITLE } from '../consts';
+import ThemeSwitcher from './ThemeSwitcher.astro';
+
+const { pathname } = Astro.url;
+const navItems = [
+  { name: 'How We Help', url: '/#services' },
+  { name: 'Training', url: '/#training' },
+  { name: 'Insights', url: '/blog/' },
+  { name: 'About', url: '/about/' },
+];
 ---
 
-<header class="site-header">
-  <div class="shell header-inner">
-    <a class="brand" href="/" aria-label="Home">{SITE_TITLE}</a>
-    <nav aria-label="Primary navigation">
-      <a href="/">How We Help</a>
-      <a href="/">Our Work</a>
-      <a href="/">Our Research</a>
-      <a href="/blog/">Our Blog</a>
-      <a href="/about/">About Us</a>
-      <a class="button primary" href="/#contact">Let's Talk</a>
-    </nav>
-  </div>
+<header class="header sticky top-0 z-30">
+  <nav class="navbar container">
+    <div class="order-0">
+      <a href="/" class="navbar-brand inline-block" aria-label="DataSaaz home">DataSaaz</a>
+    </div>
+
+    <input id="nav-toggle" type="checkbox" class="hidden" />
+    <label
+      for="nav-toggle"
+      class="order-3 flex cursor-pointer items-center text-text-dark dark:text-white lg:order-1 lg:hidden"
+    >
+      <svg id="show-button" class="block h-6 fill-current" viewBox="0 0 20 20" aria-hidden="true">
+        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+      </svg>
+      <svg id="hide-button" class="hidden h-6 fill-current" viewBox="0 0 20 20" aria-hidden="true">
+        <polygon points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2" transform="rotate(45 10 10)"></polygon>
+      </svg>
+      <span class="sr-only">Toggle navigation</span>
+    </label>
+
+    <ul
+      id="nav-menu"
+      class="navbar-nav order-3 hidden w-full pb-6 lg:order-1 lg:flex lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8"
+    >
+      {navItems.map((item) => {
+        const active = item.url === '/blog/'
+          ? pathname === item.url || pathname.startsWith(item.url)
+          : item.url === '/about/'
+            ? pathname === item.url
+            : false;
+        return (
+          <li class="nav-item">
+            <a href={item.url} class={`nav-link block ${active ? 'active' : ''}`}>{item.name}</a>
+          </li>
+        );
+      })}
+      <li class="mt-4 inline-block lg:hidden">
+        <button type="button" class="btn btn-outline-primary btn-sm" aria-label="LinkedIn">LinkedIn</button>
+      </li>
+    </ul>
+
+    <div class="order-1 ml-auto flex items-center md:order-2 lg:ml-0">
+      <ThemeSwitcher className="mr-5" />
+      <button type="button" class="btn btn-outline-primary btn-sm hidden lg:inline-block" aria-label="LinkedIn">LinkedIn</button>
+    </div>
+  </nav>
 </header>

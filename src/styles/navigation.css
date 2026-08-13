@@ -1,0 +1,43 @@
+.header {
+  @apply bg-body dark:bg-darkmode-body py-6;
+}
+
+.navbar {
+  @apply relative flex flex-wrap items-center justify-between;
+}
+
+.navbar-brand {
+  @apply text-text-dark dark:text-darkmode-text-dark text-xl font-semibold;
+}
+
+.navbar-nav {
+  @apply text-center lg:text-left;
+}
+
+.nav-link {
+  @apply text-text-dark hover:text-primary dark:text-darkmode-text-dark dark:hover:text-darkmode-primary block p-3 cursor-pointer font-semibold transition lg:px-2 lg:py-3;
+}
+
+.nav-link.active {
+  @apply text-primary dark:text-darkmode-primary;
+}
+
+.theme-switcher {
+  @apply inline-flex;
+}
+
+.theme-switcher label {
+  @apply bg-border relative inline-block h-4 w-6 cursor-pointer rounded-2xl lg:w-10;
+}
+
+.theme-switcher input {
+  @apply absolute opacity-0;
+}
+
+.theme-switcher span {
+  @apply bg-dark absolute -top-1 left-0 flex h-6 w-6 items-center justify-center rounded-full transition-all duration-300 dark:bg-white;
+}
+
+.theme-switcher input:checked + label span {
+  @apply lg:left-4;
+}

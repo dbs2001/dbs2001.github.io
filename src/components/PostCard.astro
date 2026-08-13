@@ -10,17 +10,27 @@ interface Props {
 const { id, title, description, pubDate, tags } = Astro.props;
 ---
 
-<article class="post-card">
-  <div class="post-meta">
-    <time datetime={pubDate.toISOString()}>
-      {pubDate.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })}
-    </time>
-    <span aria-hidden="true">·</span>
-    <span>{Math.max(4, Math.round(description.length / 35))} min preview</span>
-  </div>
-  <h2><a href={`/blog/${id}/`}>{title}</a></h2>
-  <p>{description}</p>
-  <div class="tag-row" aria-label="Tags">
-    {tags.map((tag) => <span class="tag">{tag}</span>)}
-  </div>
-</article>
+<div class="bg-body dark:bg-darkmode-body">
+  <h4 class="mb-3">
+    <a href={`/blog/${id}/`}>{title}</a>
+  </h4>
+
+  <ul class="mb-4 text-text-light dark:text-darkmode-text-light">
+    {tags.length > 0 && (
+      <li class="mr-4 inline-block">
+        <svg class="mr-2 -mt-1 inline-block h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M3 6.75A1.75 1.75 0 0 1 4.75 5h4l2 2h8.5A1.75 1.75 0 0 1 21 8.75v8.5A1.75 1.75 0 0 1 19.25 19H4.75A1.75 1.75 0 0 1 3 17.25Z" />
+        </svg>
+        {tags.slice(0, 2).join(', ')}
+      </li>
+    )}
+    <li class="inline-block">
+      <time datetime={pubDate.toISOString()}>
+        {pubDate.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })}
+      </time>
+    </li>
+  </ul>
+
+  <p class="mb-6">{description}</p>
+  <a class="btn btn-outline-primary btn-sm" href={`/blog/${id}/`}>read more</a>
+</div>
