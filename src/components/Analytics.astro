@@ -1,0 +1,30 @@
+<script is:inline>
+  (() => {
+    const PRODUCTION_HOST = 'blog.datasaaz.com';
+    const ENDPOINT = 'https://datasaaz-blog-analytics.datasaaz-ai.workers.dev/collect';
+
+    if (window.location.hostname !== PRODUCTION_HOST) {
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const payload = {
+      event_type: 'page_view',
+      path: window.location.pathname,
+      referrer: document.referrer || null,
+      utm_source: params.get('utm_source') ?? null,
+      utm_medium: params.get('utm_medium') ?? null,
+      utm_campaign: params.get('utm_campaign') ?? null,
+    };
+
+    fetch(ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+      credentials: 'omit',
+      keepalive: true,
+    }).catch(() => {});
+  })();
+</script>

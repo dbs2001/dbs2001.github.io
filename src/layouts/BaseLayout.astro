@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Analytics from '../components/Analytics.astro';
 import '../styles/main.css';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
@@ -168,5 +169,6 @@ const socialImage = image ? new URL(image, Astro.site) : undefined;
       <slot />
     </main>
     <Footer />
+    <Analytics />
   </body>
 </html>
