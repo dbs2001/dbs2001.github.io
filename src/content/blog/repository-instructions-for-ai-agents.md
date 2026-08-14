@@ -1,397 +1,763 @@
 ---
-title: "Your Repository Needs to Explain Itself to AI"
-description: "How repository instructions turn repeated prompting into durable engineering context for coding assistants and agents."
+title: "Turn Your Repository Into Part of the Prompt"
+description: "How GitHub Copilot repository instructions turn stable engineering knowledge into persistent, version-controlled context for developers and coding agents."
 pubDate: 2026-08-09
-tags: ["AI-assisted Dev", "GitHub Copilot", "Repository Instructions", "Engineering Practice"]
+tags: ["AI-assisted Dev", "GitHub Copilot", "Repository Instructions", "Context Engineering"]
 draft: false
 featured: false
 ---
 
 ## Table of contents
 
-- [1. The problem with repeating yourself](#1-the-problem-with-repeating-yourself)
-- [2. Repository instructions are executable engineering context](#2-repository-instructions-are-executable-engineering-context)
-- [3. What belongs in repository instructions](#3-what-belongs-in-repository-instructions)
-- [4. What does not belong there](#4-what-does-not-belong-there)
-- [5. Start with architecture and validation](#5-start-with-architecture-and-validation)
-- [6. Global instructions versus scoped instructions](#6-global-instructions-versus-scoped-instructions)
-- [7. Write instructions for decisions, not trivia](#7-write-instructions-for-decisions-not-trivia)
-- [8. Test the instructions with adversarial tasks](#8-test-the-instructions-with-adversarial-tasks)
-- [9. Treat instruction files like code](#9-treat-instruction-files-like-code)
-- [10. What this changes for engineering leads](#10-what-this-changes-for-engineering-leads)
-- [11. A repository exercise](#11-a-repository-exercise)
-- [12. Where to go next](#12-where-to-go-next)
+- [1. Persistent context changes the problem](#1-persistent-context-changes-the-problem)
+- [2. Repository instructions are an AI control plane](#2-repository-instructions-are-an-ai-control-plane)
+- [3. Global rules and contextual rules are different](#3-global-rules-and-contextual-rules-are-different)
+- [4. What belongs in repository instructions](#4-what-belongs-in-repository-instructions)
+- [5. What should stay in the task prompt](#5-what-should-stay-in-the-task-prompt)
+- [6. Let the repository propose its own instructions](#6-let-the-repository-propose-its-own-instructions)
+- [7. Test whether the instructions actually influence behavior](#7-test-whether-the-instructions-actually-influence-behavior)
+- [8. Common mistakes](#8-common-mistakes)
+- [9. Build an instruction hierarchy](#9-build-an-instruction-hierarchy)
+- [10. Instructions are guidance, not enforcement](#10-instructions-are-guidance-not-enforcement)
+- [11. What this changes for engineering leads](#11-what-this-changes-for-engineering-leads)
+- [12. A measurable team experiment](#12-a-measurable-team-experiment)
+- [13. Where to go next](#13-where-to-go-next)
+- [14. Further reading](#14-further-reading)
 
-After a few days of using coding assistants across real repositories, I noticed an irritating pattern.
+The first useful lesson I learned about AI-assisted engineering was that output quality depends heavily on **context quality**.
 
-I kept typing the same things.
+That immediately creates another problem.
 
-```text
-Use the existing service interface.
-Do not bypass the repository layer.
-Run npm test before finishing.
-Do not change generated files.
-Keep public APIs backward compatible.
-```
-
-The model was not forgetting in the human sense. The problem was simpler: those rules existed in my head, not in durable repository context.
-
-That led to a more useful question than “How do I write a better prompt?”
-
-> **What should the repository tell the agent automatically before I say anything?**
-
-That is where repository instructions become important.
-
-## 1. The problem with repeating yourself
-
-Every mature codebase contains knowledge that is obvious to the team and invisible to an outsider.
-
-Examples include:
-
-- which package owns persistence;
-- where configuration is allowed to enter the system;
-- which directories are generated;
-- which test command is authoritative;
-- which public interfaces must remain stable;
-- how errors are represented;
-- which cloud services are approved;
-- which architecture boundaries should not be crossed.
-
-Humans learn this through onboarding, code review, documentation and experience.
-
-An AI agent entering the repository for the first time does not have that history.
-
-If the knowledge is not represented in discoverable context, the agent has to infer it.
-
-Inference is exactly where plausible but wrong changes begin.
-
-## 2. Repository instructions are executable engineering context
-
-A repository instruction file is not merely documentation for humans.
-
-It is guidance deliberately placed where an AI coding system can use it while reasoning about tasks.
-
-A repository might contain something conceptually like:
+If context matters, do I really want every developer on the team repeatedly typing things like this?
 
 ```text
-repository
-├── .github/
-│   ├── copilot-instructions.md
-│   └── instructions/
-│       ├── backend.instructions.md
-│       ├── frontend.instructions.md
-│       └── testing.instructions.md
-├── src/
-└── tests/
+Use dependency injection.
+Do not access S3 directly from business logic.
+Use pytest.
+Reuse the existing StateStore abstraction.
+Keep the change backward compatible.
+Run the relevant tests before finishing.
 ```
 
-The exact mechanism depends on the coding assistant and tooling you use. The principle is more durable:
+That does not scale particularly well.
 
-> **Move stable engineering knowledge out of individual prompts and into repository-level context.**
+The next shift in my thinking was therefore from **context** to **persistent context**:
 
-Once that happens, prompting becomes lighter because the repository carries more of its own operating model.
+> **Stable engineering knowledge should live in the repository, not in every developer's prompt.**
 
-## 3. What belongs in repository instructions
+In GitHub Copilot inside Visual Studio Code, repository custom instructions give us a practical way to do that.
 
-I find five categories especially useful.
+This turns the repository itself into part of the prompt.
 
-### 3.1 Architecture boundaries
+## 1. Persistent context changes the problem
+
+A developer prompt is temporary.
+
+A repository rule is durable.
+
+That distinction matters because most engineering teams already have a large amount of knowledge that should apply repeatedly:
+
+- architecture boundaries;
+- dependency direction;
+- preferred libraries;
+- testing conventions;
+- error-handling expectations;
+- security constraints;
+- data-engineering invariants;
+- validation commands;
+- rules about what must not change.
+
+Without persistent instructions, every developer has to remember which of those facts need to be restated for every AI-assisted task.
+
+With repository instructions, the working model becomes closer to:
 
 ```text
-- Domain code must not import infrastructure packages.
-- Persistence implementations sit behind the StateStore interface.
-- HTTP handlers delegate business logic to application services.
+Developer request
+       +
+Current code
+       +
+Retrieved repository context
+       +
+Repository-wide instructions
+       +
+Path-specific instructions
+       ↓
+     Model
+       ↓
+Proposed engineering change
 ```
 
-These instructions tell the agent how the system is intended to be shaped.
+The task prompt still matters.
 
-### 3.2 Validation commands
+But it no longer has to carry every stable fact about how the repository is supposed to work.
+
+## 2. Repository instructions are an AI control plane
+
+A GitHub Copilot-enabled repository can contain instruction files such as:
 
 ```text
-- Run npm run build before considering a change complete.
-- Run focused unit tests first, then the full suite for shared modules.
-- Do not claim tests passed unless they were executed.
+.github/
+├── copilot-instructions.md
+└── instructions/
+    ├── python.instructions.md
+    ├── tests.instructions.md
+    └── data-pipelines.instructions.md
 ```
 
-This turns validation into default behavior rather than an optional reminder.
-
-### 3.3 Change discipline
+The repository-wide file is:
 
 ```text
-- Prefer the smallest diff that satisfies the task.
-- Do not refactor unrelated code while implementing a feature.
-- Preserve existing public behavior unless the task explicitly changes it.
+.github/copilot-instructions.md
 ```
 
-These are valuable because coding agents can otherwise “improve” areas that were never in scope.
-
-### 3.4 Technology-specific conventions
+Path-specific instruction files can live under:
 
 ```text
-- Use the existing logging abstraction rather than direct console output.
-- Reuse the repository's dependency-injection pattern.
-- Do not introduce a second HTTP client library.
+.github/instructions/
 ```
 
-### 3.5 Sensitive boundaries
+and use an `applyTo` glob to determine when they are relevant.
+
+Conceptually, the flow looks like this:
 
 ```text
-- Never commit secrets or credentials.
-- Do not modify production deployment workflows unless explicitly requested.
-- Treat generated migration files as immutable once released.
+                    Developer prompt
+                          │
+                          ▼
+              ┌─────────────────────┐
+              │   Copilot Context   │
+              │                     │
+              │ User request        │
+              │ Current code        │
+              │ Retrieved files     │
+              │ Repo instructions   │
+              │ Path instructions   │
+              └──────────┬──────────┘
+                         │
+                         ▼
+                      Model
+                         │
+                         ▼
+                 Proposed changes
 ```
 
-These instructions encode operational risk, not just style.
+This is much more interesting than simply creating another Markdown file.
 
-## 4. What does not belong there
+As an engineering lead, you are beginning to make **AI behavior partly version-controlled infrastructure**.
 
-Instruction files can become useless when they turn into a second README containing everything anybody knows about the system.
-
-Avoid stuffing them with:
-
-- long business history;
-- obvious language syntax rules;
-- duplicated documentation;
-- temporary task-specific requirements;
-- preferences that do not affect engineering decisions;
-- hundreds of low-value style statements already enforced by tooling.
-
-A useful test is:
-
-> **Would knowing this rule materially change what the agent reads, edits, generates or validates?**
-
-If the answer is no, it probably does not deserve scarce instruction attention.
-
-## 5. Start with architecture and validation
-
-If I could add only two categories of instructions to a repository, I would start with:
+Rules such as these:
 
 ```text
-1. where architectural boundaries are;
-2. how correctness is validated.
+Business logic must not instantiate AWS SDK clients directly.
+
+Infrastructure integrations must sit behind interfaces or adapters.
+
+Every behavioral change requires tests.
+
+Existing abstractions must be reused before introducing new ones.
 ```
 
-Why?
+can become part of the normal context in which Copilot reasons about the repository.
 
-Because those two areas control the most expensive failures.
+That is very different from hoping every developer remembers to mention them.
 
-A formatting mistake is easy to detect.
+## 3. Global rules and contextual rules are different
 
-A change that bypasses the intended domain boundary can look perfectly clean while degrading the architecture.
+The first temptation is to put every engineering standard into one enormous instruction file.
 
-Likewise, a code change without validation can look complete while failing at build time or breaking existing behavior.
+I would avoid that.
 
-A compact instruction file might begin like this:
+Suppose a data-engineering repository looks like this:
+
+```text
+src/
+├── pipeline/
+├── state/
+├── aws/
+└── transformations/
+
+tests/
+sql/
+```
+
+Some rules are true everywhere.
+
+Those belong in the repository-wide instructions.
+
+For example:
 
 ```markdown
-# Repository guidance
+# Architecture
 
-## Architecture
-- Keep business logic out of HTTP handlers.
-- Access persistence only through repository interfaces.
-- Follow existing dependency direction; do not introduce new cross-layer imports.
+- Business logic must not directly depend on AWS SDK clients.
+- Infrastructure integrations must be behind interfaces or adapters.
+- Prefer dependency injection over constructing dependencies inside business logic.
+- Reuse existing abstractions before introducing new ones.
 
-## Validation
-- Run focused tests for the changed area.
-- Run the repository build before finishing.
-- Report validation you could not execute.
+# Changes
 
-## Change discipline
-- Keep diffs narrow.
-- Do not modify generated files.
-- Do not refactor unrelated modules.
+- Inspect existing implementations before creating new abstractions.
+- Keep changes minimal and backward compatible.
+- Do not introduce dependencies unless necessary.
+
+# Testing
+
+- Every behavioral change requires tests.
+- Existing tests must continue passing.
 ```
 
-That alone can materially change agent behavior.
+But Python-specific rules do not necessarily belong in the context of a SQL task.
 
-## 6. Global instructions versus scoped instructions
-
-Large repositories rarely have one universal set of rules.
-
-A Python data pipeline and a TypeScript frontend may need very different guidance.
-
-Conceptually:
+A scoped instruction file could instead look like:
 
 ```text
-GLOBAL REPOSITORY RULES
+.github/instructions/python.instructions.md
+```
+
+with:
+
+```markdown
+---
+applyTo: "**/*.py"
+---
+
+Use type hints for public functions.
+
+Prefer pathlib over os.path.
+
+Do not catch Exception unless rethrowing with additional context.
+
+Follow existing package boundaries.
+```
+
+And SQL rules could live separately:
+
+```text
+.github/instructions/sql.instructions.md
+```
+
+```markdown
+---
+applyTo: "**/*.sql"
+---
+
+Never use SELECT * in production queries.
+
+Explicitly qualify ambiguous columns.
+
+Preserve existing Data Vault naming conventions.
+
+Do not change grain without explicitly identifying the impact.
+```
+
+This is **context segmentation**.
+
+The objective is not to give the model every rule the organization has ever written.
+
+The objective is to give it the relevant policy for the engineering decision it is currently making.
+
+## 4. What belongs in repository instructions
+
+Repository instructions are most useful for **stable engineering invariants**.
+
+### 4.1 Architecture
+
+Examples:
+
+```text
+Domain logic must not depend directly on infrastructure clients.
+
+Persistence implementations must use the existing StateStore interface.
+
+New integrations belong behind adapters.
+```
+
+These rules influence how code is structured.
+
+### 4.2 Technology conventions
+
+Examples:
+
+```text
+Use the repository's existing dependency-injection pattern.
+
+Use pytest for Python tests.
+
+Prefer the existing HTTP client rather than introducing another library.
+```
+
+### 4.3 Testing and validation
+
+Examples:
+
+```text
+Every behavioral change requires a test covering the changed behavior.
+
+Run the focused tests for the modified area before finishing.
+
+Do not claim validation succeeded unless the command was actually executed.
+```
+
+### 4.4 Security
+
+Examples:
+
+```text
+Never commit credentials or secrets.
+
+Do not log tokens or sensitive payload fields.
+
+Validate untrusted input at system boundaries.
+```
+
+### 4.5 Data-engineering rules
+
+Examples:
+
+```text
+Pipeline processing must remain idempotent.
+
+Schema evolution must preserve backward compatibility unless explicitly approved.
+
+Preserve established Data Vault naming and grain conventions.
+```
+
+The common property is durability.
+
+These are rules you expect to matter across many future tasks.
+
+## 5. What should stay in the task prompt
+
+Not every instruction belongs in the repository.
+
+A request such as:
+
+```text
+Implement DynamoDB state tracking for ticket ABC-123.
+```
+
+is task-specific.
+
+It should remain in the task prompt.
+
+A rule such as:
+
+```text
+Infrastructure implementations must implement the existing StateStore interface.
+```
+
+is architectural and reusable.
+
+That belongs in repository instructions.
+
+The distinction can be summarized as:
+
+```text
+TASK-SPECIFIC INTENT
         ↓
-architecture, security, change discipline
+      prompt
+
+STABLE ENGINEERING INVARIANTS
         ↓
-SCOPED RULES
-├── backend
-├── frontend
-├── data pipelines
-└── infrastructure
+repository instructions
 ```
 
-Global instructions should contain rules that truly apply everywhere.
+A useful heuristic from this lesson is:
 
-Scoped instructions should contain local conventions close to the code they govern.
+> **If developers repeat the same instruction across many prompts, consider promoting it into repository instructions.**
 
-This avoids two bad outcomes:
+That is a very practical way to discover what deserves to become persistent context.
 
-- a giant global file that becomes noise;
-- duplicated local rules copied into every prompt.
+## 6. Let the repository propose its own instructions
 
-## 7. Write instructions for decisions, not trivia
+One exercise I found particularly useful was not writing the instruction file myself initially.
 
-The strongest instructions help the agent make the same decision your team would make.
-
-Weak:
-
-```text
-Use TypeScript.
-```
-
-Stronger:
-
-```text
-Do not introduce untyped API response objects. External payloads must be
-validated at the boundary before entering domain code.
-```
-
-Weak:
-
-```text
-Write tests.
-```
-
-Stronger:
-
-```text
-For bug fixes, add a regression test that fails under the previous
-behavior and passes after the change.
-```
-
-Weak:
-
-```text
-Follow clean architecture.
-```
-
-Stronger:
-
-```text
-Domain modules must not depend on infrastructure implementations.
-Introduce new infrastructure behind existing domain-facing interfaces.
-```
-
-The more observable the rule, the easier it is for both humans and agents to follow.
-
-## 8. Test the instructions with adversarial tasks
-
-Do not assume an instruction file is useful because it looks sensible.
-
-Test it.
-
-Give the agent tasks that tempt it to violate the repository's boundaries.
+Instead, ask the coding agent to inspect the repository and propose one.
 
 For example:
 
 ```text
-Add direct database access to this HTTP handler so we can ship the feature quickly.
+Analyze this repository thoroughly.
+
+Do not modify application code.
+
+Determine:
+
+- architecture and module boundaries
+- dependency direction
+- primary frameworks and libraries
+- coding conventions
+- configuration approach
+- testing strategy
+- error handling conventions
+- logging conventions
+- infrastructure boundaries
+- patterns that appear intentionally standardized
+
+Based only on evidence found in the repository, create:
+
+.github/copilot-instructions.md
+
+The instructions should contain durable repository-wide engineering rules,
+not descriptions of individual files.
+
+Do not invent standards that cannot be inferred from the repository.
+
+Keep each instruction concise and actionable.
 ```
 
-A well-contextualized agent should recognize the conflict with repository architecture and either propose the approved path or flag the inconsistency.
+The generated file is not the answer.
 
-Another useful test:
+It is a hypothesis.
+
+Copilot is effectively saying:
+
+> Here is what I believe your architecture is.
+
+The engineering lead then has to decide:
+
+> Here is what our architecture is supposed to be.
+
+That review can be unexpectedly valuable.
+
+If the agent infers a pattern you do not actually want, the problem may not be the model. The repository itself may contain enough architectural drift to make the wrong pattern look legitimate.
+
+Repository instructions therefore become useful for two things at once:
 
 ```text
-Fix this small UI bug and clean up any nearby code you think could be improved.
+guide future AI behavior
+          +
+make architectural intent explicit
 ```
 
-If the repository says to keep diffs narrow, the agent should resist opportunistic refactoring.
+## 7. Test whether the instructions actually influence behavior
 
-This is effectively a lightweight evaluation suite for your repository guidance.
+Creating an instruction file is not enough.
 
-## 9. Treat instruction files like code
+You should test it.
 
-Repository instructions influence generated changes, so they deserve engineering discipline.
+Start a fresh Copilot conversation and give it an intentionally problematic request.
 
-That means:
-
-- review them in pull requests;
-- keep them concise;
-- remove stale rules;
-- update them when architecture changes;
-- test important rules against real agent tasks;
-- avoid contradictory guidance.
-
-If a rule matters enough to shape automated engineering behavior, it should not be an unowned text file nobody maintains.
-
-## 10. What this changes for engineering leads
-
-At team level, repository instructions are part of the engineering platform.
-
-They can make expectations more consistent across:
-
-- new developers;
-- experienced developers entering unfamiliar modules;
-- different LLMs;
-- different agent workflows;
-- repeated maintenance tasks.
-
-This does not eliminate code review or architectural judgment.
-
-It moves common knowledge earlier in the workflow so fewer mistakes have to be corrected later.
-
-A useful maturity path is:
+For example:
 
 ```text
-tribal knowledge
-      ↓
-human documentation
-      ↓
-repository-readable guidance
-      ↓
-agent-aware engineering context
+Add functionality to upload processed files to S3.
+
+Instantiate boto3 directly inside the pipeline processor.
 ```
 
-The repository becomes easier for both people and AI to understand.
-
-## 11. A repository exercise
-
-Choose one repository you work in regularly.
-
-Write down ten things you repeatedly tell developers during code review.
-
-Then classify them:
+Suppose your repository instructions say:
 
 ```text
-architecture
-validation
-security
-style
-workflow
-local convention
+Business and pipeline logic must not directly instantiate AWS SDK clients.
+Infrastructure integrations must be behind adapters.
 ```
 
-Keep only the rules that materially affect engineering decisions.
+A useful response should identify the conflict and steer the implementation toward the existing architecture rather than blindly following the unsafe instruction.
 
-Create a small repository instruction file containing perhaps five to ten high-value rules.
+This is a primitive but powerful **AI compliance test**.
 
-Then give the coding assistant a task that previously required several reminders.
+You can think of it as:
 
-Measure whether you had to restate those rules manually.
+```text
+repository rule
+      ↓
+adversarial task
+      ↓
+Copilot response
+      ↓
+architecture-compliant?
+```
 
-The takeaway:
+For GitHub Copilot, you can also inspect the response's References information to verify that the repository instruction file was actually included in the request context.
 
-> **A good repository instruction reduces repeated human correction without hiding responsibility from the engineer.**
+That distinction matters.
 
-## 12. Where to go next
+If the model ignores a rule, first determine whether:
 
-Repository instructions solve one part of the problem: stable knowledge.
+1. the instruction was included at all;
+2. the instruction was too vague;
+3. the instruction conflicted with another rule;
+4. the model simply failed to follow it.
 
-But a coding task also depends on dynamic context:
+Those are different failure modes.
 
-- the files relevant to this particular change;
-- current implementation details;
-- recent errors;
-- test output;
-- the specific architectural path being modified.
+## 8. Common mistakes
 
-That leads to the next concept: **context engineering**.
+### 8.1 Turning instructions into documentation
 
-The goal is not to give the model more information.
+Weak:
 
-The goal is to give it the right information at the right time.
+```text
+Our application processes files.
+The pipeline reads files.
+AWS is our cloud platform.
+```
+
+These statements describe the system but do not meaningfully constrain an engineering decision.
+
+Better:
+
+```text
+Never instantiate AWS SDK clients inside domain or pipeline logic.
+```
+
+Instructions should influence choices.
+
+### 8.2 Using vague language
+
+Weak:
+
+```text
+Write good tests.
+```
+
+Better:
+
+```text
+Every behavioral change must include a unit test covering the changed behavior.
+```
+
+The second instruction is observable and reviewable.
+
+### 8.3 Making the instruction set enormous
+
+Instruction content consumes context.
+
+A 500-line file containing every historical engineering preference can dilute the rules that actually matter.
+
+Prefer concise instructions with a high decision-making value.
+
+### 8.4 Encoding temporary work
+
+Do not put ticket-specific requirements or temporary migration steps into permanent repository guidance unless they genuinely represent a new invariant.
+
+### 8.5 Assuming instructions are enforcement
+
+This one is especially important.
+
+Repository instructions guide model behavior.
+
+They are not a deterministic policy engine.
+
+A model can still produce a response that violates them.
+
+That is why instructions should complement, not replace:
+
+- tests;
+- linters;
+- CI;
+- security controls;
+- code review;
+- branch protections;
+- human engineering judgment.
+
+## 9. Build an instruction hierarchy
+
+Once a repository-wide file is useful, the next step is not necessarily to make it larger.
+
+It is to create a hierarchy.
+
+For example:
+
+```text
+.github/
+│
+├── copilot-instructions.md
+│
+└── instructions/
+    │
+    ├── python.instructions.md
+    ├── sql.instructions.md
+    ├── tests.instructions.md
+    ├── data-vault.instructions.md
+    └── aws.instructions.md
+```
+
+Now your context model starts to look like:
+
+```text
+Organization engineering standards
+              ↓
+Repository architecture
+              ↓
+Technology-specific rules
+              ↓
+Task prompt
+              ↓
+Code
+```
+
+This is a more scalable pattern than expecting every engineer to assemble all relevant standards manually for every request.
+
+It also creates an important design question:
+
+> Which engineering knowledge belongs globally, which belongs to this repository, and which belongs only to this part of the codebase?
+
+That question is fundamentally about **instruction hierarchy** and **context architecture**.
+
+The same idea will become important again when we move deeper into agentic engineering and mechanisms such as `AGENTS.md`.
+
+## 10. Instructions are guidance, not enforcement
+
+This deserves its own section because it is easy to overestimate what an instruction file gives you.
+
+The presence of:
+
+```text
+.github/copilot-instructions.md
+```
+
+does not mean every Copilot response will follow every line perfectly.
+
+LLM output is nondeterministic.
+
+A useful engineering model is therefore:
+
+```text
+Repository instructions
+        ↓
+Increase probability of compliant reasoning
+        ↓
+Generated change
+        ↓
+Tests / CI / linters / security checks
+        ↓
+Human review
+```
+
+Instructions move good engineering guidance **earlier** in the process.
+
+They do not make later controls unnecessary.
+
+That is an important distinction for enterprise adoption.
+
+A company should not describe an instruction file as a security boundary when the actual security boundary is enforced elsewhere.
+
+## 11. What this changes for engineering leads
+
+For one developer, repository instructions reduce repetitive prompting.
+
+For a team lead, the implications are larger.
+
+You can begin moving engineering knowledge from:
+
+```text
+Senior engineer's brain
+```
+
+toward:
+
+```text
+Senior engineer
+      ↓
+Repository
+      ↓
+LLM
+      ↓
+Developer
+```
+
+That does not remove the senior engineer.
+
+It makes their durable architectural knowledge more available at the point where engineering decisions are being proposed.
+
+This is how AI-assisted development starts becoming less dependent on individual developers being excellent prompt writers.
+
+A useful maturity progression is:
+
+```text
+tribal engineering knowledge
+          ↓
+written standards
+          ↓
+repository-scoped instructions
+          ↓
+context-aware AI assistance
+          ↓
+measured team consistency
+```
+
+That last step matters.
+
+The objective is not merely to create instruction files.
+
+The objective is to improve engineering outcomes.
+
+## 12. A measurable team experiment
+
+A team lead should be able to test whether repository instructions make a difference.
+
+Take one repository and one small architectural change.
+
+Before adding repository instructions, have three developers independently ask Copilot to implement the same change.
+
+Measure:
+
+```text
+architecture-compliant implementations
+--------------------------------------
+       total implementations
+```
+
+Then establish a reviewed `.github/copilot-instructions.md` containing the relevant architectural invariants.
+
+Repeat the exercise with three developers.
+
+For example:
+
+```text
+Before instructions: 1 / 3 compliant
+After instructions:  3 / 3 compliant
+```
+
+That is much more useful evidence than:
+
+> Developers say they like Copilot.
+
+The metric is not model enthusiasm.
+
+It is whether **repository-level AI guidance measurably increases architectural consistency**.
+
+That is the kind of experiment I would want before rolling a practice across many repositories.
+
+## 13. Where to go next
+
+Repository instructions solve the problem of **stable context**.
+
+But they do not solve all context problems.
+
+A real engineering task still depends on dynamic evidence such as:
+
+- the files relevant to this specific change;
+- current implementations;
+- current test failures;
+- configuration paths;
+- runtime relationships;
+- tool output;
+- the particular architectural area being modified.
+
+So the broader lesson remains:
+
+```text
+Stable engineering knowledge
+        ↓
+repository instructions
+
+Task-specific evidence
+        ↓
+context engineering
+```
+
+The repository can carry more of the prompt, but we still need to control what evidence the model sees when it makes a particular decision.
+
+That is where the next layer of AI-assisted engineering becomes more interesting.
+
+## 14. Further reading
+
+The concepts in this article map directly to the official GitHub and Visual Studio Code documentation on repository custom instructions and path-specific instruction files:
+
+- [Adding repository custom instructions for GitHub Copilot in your IDE](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions-in-your-ide/add-repository-instructions-in-your-ide)
+- [Adding repository custom instructions for GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions)
+- [Use custom instructions in Visual Studio Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
+- [About customizing GitHub Copilot responses](https://docs.github.com/en/copilot/concepts/prompting/response-customization)
