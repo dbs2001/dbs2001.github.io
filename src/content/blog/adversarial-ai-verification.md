@@ -381,7 +381,7 @@ The value of the second model is that it helps generate new evidence, not that i
 
 ## 8. Today's repository exercise
 
-Take one recently implemented feature—ideally one created partly with Copilot.
+Take one recently implemented feature, ideally one created partly with Copilot.
 
 Start a completely fresh conversation.
 

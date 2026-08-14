@@ -247,7 +247,7 @@ Those questions expose the behavioral structure of the system.
 
 Not every plausible property is a real requirement.
 
-A developer—or an LLM—can easily invent an invariant that sounds sensible but is not part of the system's contract.
+A developer or an LLM can easily invent an invariant that sounds sensible but is not part of the system's contract.
 
 So the sequence should be:
 

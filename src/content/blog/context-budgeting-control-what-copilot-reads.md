@@ -1,6 +1,6 @@
 ---
 title: "Control What Copilot Reads Before It Reasons"
-description: "Why context budgeting—constructing the smallest sufficient evidence set—improves repository-aware AI decisions more than simply giving a model more files."
+description: "Why context budgeting, which constructs the smallest sufficient evidence set, improves repository-aware AI decisions more than simply giving a model more files."
 pubDate: 2026-08-11
 tags: ["AI-assisted Dev", "GitHub Copilot", "Context Engineering", "Repository Analysis"]
 draft: false
@@ -171,7 +171,7 @@ The target sits between them.
 
 For consequential changes, I prefer three passes.
 
-### 3.1 Pass 1 — Locate
+### 3.1 Pass 1: Locate
 
 Do not ask for implementation yet.
 
@@ -206,7 +206,7 @@ tests/state/test_dynamodb.py
 
 That is the **candidate context set**.
 
-### 3.2 Pass 2 — Verify
+### 3.2 Pass 2: Verify
 
 Now ask it to challenge that set:
 
@@ -225,7 +225,7 @@ Do not modify anything.
 
 The context expands because discovered dependencies justify the expansion.
 
-### 3.3 Pass 3 — Execute
+### 3.3 Pass 3: Execute
 
 Only after the working set looks credible do I allow implementation:
 
