@@ -7,6 +7,8 @@ draft: false
 featured: false
 ---
 
+> **New to invariants and property-based testing?** Start with [Invariant Discovery and Property-Based Testing: The 5-Minute Mental Model](/blog/invariant-discovery-and-property-based-testing/) for a short explanation with one software example and one data-engineering example, then continue here for the AI-assisted workflow.
+
 ## Table of contents
 
 - [1. Stop asking only for example tests](#1-stop-asking-only-for-example-tests)
