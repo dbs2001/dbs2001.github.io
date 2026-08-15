@@ -88,9 +88,9 @@ Avoid:
 
 ## 5. Punctuation and prose conventions
 
-Do not use the em dash character `—` in DataSaaz prose, headings, descriptions or frontmatter.
+Do not use Unicode U+2014 as sentence punctuation in DataSaaz prose, headings, descriptions or frontmatter.
 
-Do not mechanically replace an em dash with a hyphen. Rewrite the sentence naturally with:
+Do not mechanically replace it with a hyphen. Rewrite the sentence naturally with:
 
 - a comma;
 - a colon;
@@ -327,7 +327,7 @@ For editorial changes, also verify:
 - internal links point to existing article IDs;
 - Markdown fences are balanced;
 - headings are coherent;
-- no accidental em dash characters remain;
+- no accidental U+2014 characters remain;
 - changed articles remain readable on narrow screens where possible.
 
 ## 15. Change-management rules

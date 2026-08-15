@@ -179,7 +179,7 @@ Do not create a link until the destination article exists.
 
 ## Punctuation
 
-Do not use the em dash character `—` anywhere in blog content or frontmatter.
+Do not use Unicode U+2014 as sentence punctuation anywhere in blog content or frontmatter.
 
 Do not replace it with a plain hyphen as sentence punctuation.
 
@@ -216,7 +216,7 @@ Verify:
 - headings follow a coherent hierarchy;
 - code fences are balanced;
 - internal links resolve to existing article IDs;
-- no em dash characters remain;
+- no U+2014 characters remain;
 - examples are technically meaningful;
 - AI claims are bounded by evidence;
 - the article adds practical value beyond a generic explanation.

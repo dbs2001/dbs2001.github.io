@@ -74,7 +74,7 @@ Prefer:
 - concise paragraphs;
 - measured language rather than hype.
 
-Do not use the em dash character `—` in prose, headings, descriptions or frontmatter.
+Do not use Unicode U+2014 as sentence punctuation in prose, headings, descriptions or frontmatter.
 
 Do not replace it mechanically with `-`. Rewrite with commas, colons, semicolons, parentheses, conjunctions or shorter sentences.
 
