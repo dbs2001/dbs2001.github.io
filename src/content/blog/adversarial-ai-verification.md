@@ -1,5 +1,5 @@
 ---
-title: "Make a Second GPT Try to Break the First GPT’s Code"
+title: "Day 6 : Make a Second GPT Try to Break the First GPT’s Code"
 description: "How adversarial AI verification uses fresh context, evidence-driven findings and reproducible counterexamples to challenge AI-generated code."
 pubDate: 2026-08-13
 tags: ["AI-assisted Dev", "GitHub Copilot", "Code Review", "Verification"]
@@ -591,3 +591,5 @@ Instead of asking GPT to invent a few unit-test examples, what if we ask:
 That moves from example-based test generation toward **invariant discovery and property-based testing**.
 
 The next lesson uses GPT not merely to write tests, but to help discover the behavioral properties the tests should defend.
+
+**Next lesson:** [Day 7 : Make GPT Discover What Must Always Be True](/blog/property-based-ai-testing/)

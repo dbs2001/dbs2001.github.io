@@ -1,5 +1,5 @@
 ---
-title: "Make GPT Discover What Must Always Be True"
+title: "Day 7 : Make GPT Discover What Must Always Be True"
 description: "How AI-assisted invariant discovery and property-based testing can reveal behavioral guarantees that example-based unit tests often miss."
 pubDate: 2026-08-14
 tags: ["AI-assisted Dev", "Testing", "Property-Based Testing", "Engineering Quality"]
@@ -625,3 +625,5 @@ Property-based testing turns those challenges into stronger behavioral guarantee
 That is the direction I find much more useful than treating AI adoption as a collection of prompt tricks.
 
 The real objective is to build an **AI-assisted engineering system** in which models can do more work while architecture, evidence and accountability remain explicit.
+
+**Next lesson:** [Day 8 : Eval-Driven AI Engineering: Stop Judging Copilot by “Looks Good”](/blog/eval-driven-ai-engineering/)

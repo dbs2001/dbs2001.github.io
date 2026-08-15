@@ -1,5 +1,5 @@
 ---
-title: "Control What Copilot Reads Before It Reasons"
+title: "Day 4 : Control What Copilot Reads Before It Reasons"
 description: "Why context budgeting, which constructs the smallest sufficient evidence set, improves repository-aware AI decisions more than simply giving a model more files."
 pubDate: 2026-08-11
 tags: ["AI-assisted Dev", "GitHub Copilot", "Context Engineering", "Repository Analysis"]
@@ -538,3 +538,5 @@ Instead of only asking the model to reason, we let an agent act: inspect files, 
 That increases leverage, but also blast radius.
 
 The next lesson therefore moves from **controlled context** to **controlled agency**.
+
+**Next lesson:** [Day 5 : Plan–Execute–Verify: Stop Letting Copilot Agent Improvise](/blog/plan-execute-verify-bounded-agency/)

@@ -1,5 +1,5 @@
 ---
-title: "Turn Your Repository Into Part of the Prompt"
+title: "Day 2 : Turn Your Repository Into Part of the Prompt"
 description: "How GitHub Copilot repository instructions turn stable engineering knowledge into persistent, version-controlled context for developers and coding agents."
 pubDate: 2026-08-09
 tags: ["AI-assisted Dev", "GitHub Copilot", "Repository Instructions", "Context Engineering"]
@@ -761,3 +761,5 @@ The concepts in this article map directly to the official GitHub and Visual Stud
 - [Adding repository custom instructions for GitHub Copilot](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions)
 - [Use custom instructions in Visual Studio Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions)
 - [About customizing GitHub Copilot responses](https://docs.github.com/en/copilot/concepts/prompting/response-customization)
+
+**Next lesson:** [Day 3 : Turn Good Prompts Into Version-Controlled Engineering Workflows](/blog/prompt-files-version-controlled-engineering-workflows/)
