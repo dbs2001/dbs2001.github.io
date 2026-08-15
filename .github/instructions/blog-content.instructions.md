@@ -27,6 +27,14 @@ Keep descriptions specific to the article and avoid generic AI marketing languag
 
 Keep slugs descriptive, lowercase and stable once published.
 
+For source-grounded daily training lessons, use the visible title format:
+
+```text
+Day N : <lesson title>
+```
+
+Keep the slug focused on the concept rather than the day number so URLs remain stable if chronology changes.
+
 ## Voice
 
 Write as an experienced engineer explaining what changed in their mental model after confronting a real engineering problem.
@@ -122,6 +130,35 @@ The blog article may improve narrative flow and formatting, but it must not repl
 
 If the source and an older draft disagree, revise the draft to match the source.
 
+If the source file contains a day number that conflicts with the established repository chronology, preserve the lesson content but use the repository's sequential Day numbering unless the user explicitly asks to preserve the source number.
+
+## Daily lesson navigation
+
+Treat the numbered training articles as a continuous learning path.
+
+Every published lesson except the latest one must end with a direct forward link:
+
+```markdown
+**Next lesson:** [Day N+1 : <next lesson title>](/blog/<next-article-id>/)
+```
+
+When adding a new lesson:
+
+1. assign the next sequential `Day N :` title;
+2. add the new article with a concept-focused slug;
+3. update the previous latest lesson so it links to the new lesson;
+4. keep all earlier forward links intact;
+5. update any supporting primer whose visible link text uses an older lesson title;
+6. leave the new latest lesson without a fake future link.
+
+The latest lesson may end with:
+
+```text
+**Next lesson:** This is currently the latest lesson in the series. The next lesson will be linked here when it is published.
+```
+
+Supporting primers and the flagship mental-model article are not Day-numbered unless explicitly added to the daily curriculum.
+
 ## Evidence language
 
 Keep the distinction between model hypothesis and engineering truth explicit.
@@ -163,7 +200,8 @@ Team-level metrics should measure engineering quality rather than raw AI usage. 
 - plan adherence;
 - reviewer precision;
 - counterexample conversion;
-- mutation detection.
+- mutation detection;
+- AI Engineering Success Rate.
 
 ## Internal linking
 
@@ -206,12 +244,17 @@ Prefer one of:
 - a link to a prerequisite or deeper article;
 - a concrete question that changes how the reader approaches the next engineering task.
 
+For Day-numbered training lessons, the explicit `Next lesson` navigation rule takes precedence over a generic closing transition.
+
 ## Editorial checks before finishing
 
 Verify:
 
 - the article is faithful to its source material;
 - the title matches the actual concept;
+- Day numbering is sequential for daily training lessons;
+- every non-latest daily lesson links directly to the next lesson;
+- the latest daily lesson does not link to a nonexistent future article;
 - the description is specific;
 - headings follow a coherent hierarchy;
 - code fences are balanced;

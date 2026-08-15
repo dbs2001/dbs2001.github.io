@@ -1,5 +1,5 @@
 ---
-title: "Context Engineering: Stop Prompting, Start Controlling Context"
+title: "Day 1 : Context Engineering: Stop Prompting, Start Controlling Context"
 description: "Why better AI-assisted engineering starts by controlling what GitHub Copilot can see, separating repository discovery from implementation, and verifying its architectural model before code changes begin."
 pubDate: 2026-08-08
 tags: ["AI-assisted Dev", "GitHub Copilot", "Context Engineering", "Engineering Practice"]
@@ -528,3 +528,5 @@ The natural next question is:
 > How do we make Copilot automatically inherit more of the team's engineering expectations from the repository itself?
 
 That leads directly to repository-level Copilot instructions: turning architecture rules, coding standards and engineering constraints into durable context rather than repeated prompt text.
+
+**Next lesson:** [Day 2 : Turn Your Repository Into Part of the Prompt](/blog/repository-instructions-for-ai-agents/)

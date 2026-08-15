@@ -1,5 +1,5 @@
 ---
-title: "Turn Good Prompts Into Version-Controlled Engineering Workflows"
+title: "Day 3 : Turn Good Prompts Into Version-Controlled Engineering Workflows"
 description: "How prompt files turn repeatable AI engineering tasks into version-controlled workflows that teams can review, reuse and improve."
 pubDate: 2026-08-10
 tags: ["AI-assisted Dev", "GitHub Copilot", "Prompt Files", "Engineering Workflows"]
@@ -708,3 +708,5 @@ The model can begin using tools, editing files, running tests and iterating agai
 That is the transition from reusable prompting into **agentic engineering**.
 
 And once the model can act, the decomposition we built here becomes even more important.
+
+**Next lesson:** [Day 4 : Control What Copilot Reads Before It Reasons](/blog/context-budgeting-control-what-copilot-reads/)

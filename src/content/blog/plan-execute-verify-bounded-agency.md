@@ -1,5 +1,5 @@
 ---
-title: "Plan–Execute–Verify: Stop Letting Copilot Agent Improvise"
+title: "Day 5 : Plan–Execute–Verify: Stop Letting Copilot Agent Improvise"
 description: "How bounded agency turns AI coding from open-ended improvisation into a controlled engineering workflow with explicit plans, scope gates and verification."
 pubDate: 2026-08-12
 tags: ["AI-assisted Dev", "GitHub Copilot", "Agentic Coding", "Engineering Controls"]
@@ -587,3 +587,5 @@ concrete failure scenarios
 ```
 
 That moves us from **bounded execution** into **evidence-driven adversarial verification**.
+
+**Next lesson:** [Day 6 : Make a Second GPT Try to Break the First GPT’s Code](/blog/adversarial-ai-verification/)

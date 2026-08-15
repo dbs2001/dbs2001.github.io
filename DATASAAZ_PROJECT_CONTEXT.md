@@ -175,7 +175,7 @@ Useful data examples include:
 
 Do not add a data example merely for symmetry. It should clarify the concept.
 
-## 9. Internal linking
+## 9. Internal linking and daily lesson navigation
 
 Use internal links to make the content corpus behave like a learning path.
 
@@ -191,6 +191,24 @@ Where useful, link back from the primer to the deeper article.
 
 Do not create links to articles that do not exist in the repository.
 
+The source-grounded daily training series uses explicit day numbering in each article title:
+
+```text
+Day 1 : <lesson title>
+Day 2 : <lesson title>
+...
+```
+
+Every published daily lesson except the current latest lesson must end with a direct link to the next lesson:
+
+```markdown
+**Next lesson:** [Day N+1 : <next lesson title>](/blog/<next-article-id>/)
+```
+
+The current latest lesson should not link to a nonexistent article. It may state that it is the latest lesson and that the next link will be added when the next lesson is published. When a new lesson is added, update the previous latest lesson to link forward to it.
+
+Supporting primers and the flagship mental-model article are not part of the Day numbering unless explicitly promoted into the daily training sequence.
+
 ## 10. Current editorial corpus
 
 The flagship article is:
@@ -201,16 +219,17 @@ src/content/blog/ai-assisted-programming-mental-model.md
 
 It remains the primary reference for the long-form DataSaaz voice and is currently the featured article.
 
-The first source-grounded AI-assisted engineering training sequence is:
+The source-grounded AI-assisted engineering training sequence is:
 
 ```text
-1. context-engineering-stop-prompting-start-controlling-context.md
-2. repository-instructions-for-ai-agents.md
-3. prompt-files-version-controlled-engineering-workflows.md
-4. context-budgeting-control-what-copilot-reads.md
-5. plan-execute-verify-bounded-agency.md
-6. adversarial-ai-verification.md
-7. property-based-ai-testing.md
+Day 1 : context-engineering-stop-prompting-start-controlling-context.md
+Day 2 : repository-instructions-for-ai-agents.md
+Day 3 : prompt-files-version-controlled-engineering-workflows.md
+Day 4 : context-budgeting-control-what-copilot-reads.md
+Day 5 : plan-execute-verify-bounded-agency.md
+Day 6 : adversarial-ai-verification.md
+Day 7 : property-based-ai-testing.md
+Day 8 : eval-driven-ai-engineering.md
 ```
 
 Supporting prerequisite primer:
@@ -235,6 +254,8 @@ Bounded agent execution
 Adversarial verification
         ↓
 Invariant discovery and property-based testing
+        ↓
+Evaluation engineering
 ```
 
 Preserve this sequence when adding cross-links or references unless the curriculum itself changes.
@@ -269,6 +290,8 @@ updatedDate: 2026-08-15
 The Markdown filename becomes the article ID and URL slug.
 
 Keep slugs descriptive, lowercase and stable once published.
+
+For daily training lessons, use the visible title format `Day N : <lesson title>` while keeping the slug focused on the concept rather than the day number. This allows the chronology to remain visible without making URLs brittle.
 
 Only one article should normally be `featured: true` unless the rendering logic is intentionally changed.
 
@@ -325,6 +348,9 @@ For editorial changes, also verify:
 
 - frontmatter conforms to the content schema;
 - internal links point to existing article IDs;
+- daily lesson numbering remains sequential;
+- every non-latest daily lesson links directly to the next lesson;
+- the latest daily lesson does not link to a nonexistent future article;
 - Markdown fences are balanced;
 - headings are coherent;
 - no accidental U+2014 characters remain;

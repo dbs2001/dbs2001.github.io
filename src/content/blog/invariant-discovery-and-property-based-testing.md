@@ -279,4 +279,4 @@ and property-based testing asks:
 
 > **"Can we generate an input that proves that belief wrong?"**
 
-That is the foundation for the deeper AI-assisted testing workflow in [Make GPT Discover What Must Always Be True](/blog/property-based-ai-testing/).
+That is the foundation for the deeper AI-assisted testing workflow in [Day 7 : Make GPT Discover What Must Always Be True](/blog/property-based-ai-testing/).
